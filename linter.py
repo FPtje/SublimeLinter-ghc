@@ -18,20 +18,20 @@ class Ghc(Linter):
     """Provides an interface to ghc."""
 
     syntax = ('haskell', 'haskell-sublimehaskell', 'literate haskell')
-    cmd = ('ghc', '-fno-code', '-Wall', '-Wwarn', '-fno-helpful-errors')
+    cmd = 'upSearchghc.sh @'
     regex = (
         r'^(?P<filename>.+):'
         r'(?P<line>\d+):(?P<col>\d+):'
-        r'\s+(?P<warning>Warning:\s+)?(?P<message>.+)$'
+        r'\s+((?P<warning>warning:\s+)|(?P<error>error:\s+))?[^\n]*\s+(?P<message>.+)$'
     )
     multiline = True
 
     # No stdin
-    tempfile_suffix = {
-        'haskell': 'hs',
-        'haskell-sublimehaskell': 'hs',
-        'literate haskell': 'lhs'
-    }
+    # tempfile_suffix = {
+    #     'haskell': 'hs',
+    #     'haskell-sublimehaskell': 'hs',
+    #     'literate haskell': 'lhs'
+    # }
 
     # ghc writes errors to STDERR
     error_stream = util.STREAM_STDERR
