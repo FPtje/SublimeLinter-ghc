@@ -7,24 +7,28 @@
 #
 # License: MIT
 #
+# Edited by FPtje
 
 """This module exports the Ghc plugin class."""
 
 from SublimeLinter.lint import Linter, util
 from os.path import basename
+import re
+
 
 
 class Ghc(Linter):
     """Provides an interface to ghc."""
 
     syntax = ('haskell', 'haskell-sublimehaskell', 'literate haskell')
-    cmd = 'upSearchghc.sh @'
+    cmd = 'ghcLint.sh @'
     regex = (
-        r'^(?P<filename>.+):'
+        r'^(?P<filename>.+?):'
         r'(?P<line>\d+):(?P<col>\d+):'
-        r'\s+((?P<warning>warning:\s+)|(?P<error>error:\s+))?[^\n]*\s+(?P<message>.+)$'
+        r'\s+((?P<warning>warning:)|(?P<error>error:))?[^\n]*\s+(?P<message>.+)$'
     )
     multiline = True
+    # re_flags = re.DOTALL
 
     # No stdin
     # tempfile_suffix = {
