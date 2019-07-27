@@ -20,14 +20,13 @@ import re
 class Ghc(Linter):
     """Provides an interface to ghc."""
 
-    syntax = ('haskell', 'haskell-sublimehaskell', 'literate haskell')
-    cmd = '/home/falco.peijnenburg/Programs/scripts/ghcLint.sh @'
+    cmd = '/home/falco.peijnenburg/Programs/scripts/ghcLint.sh $file'
     regex = (
         r'^(?P<filename>.+?):'
         r'(?P<line>\d+):(?P<col>\d+):'
         r'\s+((?P<warning>warning:)|(?P<error>error:))?[^\n]*\s+(•\s+)?(?P<message>([^•\n]|\n )+)$'
     )
-    defaults = { "lint_mode": "load_save" }
+    defaults = { "lint_mode": "load_save", 'selector': 'source.haskell' }
     multiline = True
     # re_flags = re.DOTALL
 
@@ -48,7 +47,7 @@ class Ghc(Linter):
         )
 
         # Take out newlines and long prefixed spaces
-        message = re.sub(r'\n\s+', "\n" + " " * 47, message)
+        message = re.sub(r'\n\s+', "\n", message)
 
         match_filename = basename(match.groupdict()['filename'])
         linted_filename = basename(self.filename)
